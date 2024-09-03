@@ -1,0 +1,15 @@
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+button {
+  margin: 16px;
+}
+
+#output {
+  display: block;
+  background: lightgray;
+  min-height: 300px;
+  padding: 8px;
+}

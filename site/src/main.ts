@@ -1,3 +1,4 @@
+import "./style.css";
 import { compile_source } from "webrick";
 
 import { EditorView, basicSetup } from "codemirror";
