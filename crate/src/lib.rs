@@ -5,12 +5,34 @@ use brick_wasm_backend::{compile, BackendOptions};
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen]
-pub fn compile_source(source: &str) -> Vec<u8> {
+pub struct CompileResults {
+    binary: Option<Vec<u8>>,
+    errors: Option<String>,
+}
+
+#[wasm_bindgen]
+impl CompileResults {
+    #[wasm_bindgen(getter)]
+    pub fn binary(&self) -> Option<Vec<u8>> {
+        self.binary.clone()
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn errors(&self) -> Option<String> {
+        self.errors.clone()
+    }
+}
+
+#[wasm_bindgen]
+pub fn compile_source(source: &str) -> CompileResults {
     let sources = &[SourceFile {
         filename: "<web input>",
         module_name: "main",
         contents: source.to_string(),
     }];
+
+    let mut binary = None;
+    let mut errors = None;
 
     match compile(
         sources,
@@ -35,17 +57,17 @@ pub fn compile_source(source: &str) -> Vec<u8> {
                 },
             ]) {
                 Ok(module) => {
-                    return module;
+                    binary = Some(module);
                 }
                 Err(err) => {
-                    println!("internal compiler error: {err}");
+                    errors = Some(format!("{err}"));
                 }
             }
         }
         Err(e) => {
-            println!("{e}");
+            errors = Some(format!("{e}"));
         }
     }
 
-    Vec::new()
+    CompileResults { binary, errors }
 }

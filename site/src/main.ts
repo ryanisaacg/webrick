@@ -10,8 +10,12 @@ let view = new EditorView({
 const outputElement = document.getElementById("output");
 
 document.getElementById("build").addEventListener("click", () => {
-  const binary = compile_source(view.state.doc.toString());
-  WebAssembly.instantiate(binary, {}).then((x) => {
-    outputElement.innerText = x.instance.exports.main();
-  });
+  const { binary, errors } = compile_source(view.state.doc.toString());
+  if (binary != null) {
+    WebAssembly.instantiate(binary, {}).then((x) => {
+      outputElement.innerText = x.instance.exports.main();
+    });
+  } else {
+    outputElement.innerText = errors;
+  }
 });
