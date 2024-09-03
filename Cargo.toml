@@ -3,6 +3,12 @@ name = "webrick"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+brick = { git = "https://github.com/ryanisaacg/brick" }
+brick-wasm-backend = { git = "https://github.com/ryanisaacg/brick" }
+runtime-binary = { git = "https://github.com/ryanisaacg/brick" }
+brick-ld = { git = "https://github.com/ryanisaacg/brick" }
+wasm-bindgen = "0.2.93"
