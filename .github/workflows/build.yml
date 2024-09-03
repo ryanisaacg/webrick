@@ -28,7 +28,7 @@ jobs:
           version: 'latest'
       # Build
       - name: Build project
-        run: cd site && npm run wasm-build && npm run build
+        run: cd site && npm ci && npm run build-wasm && npm run build
       # upload to pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
